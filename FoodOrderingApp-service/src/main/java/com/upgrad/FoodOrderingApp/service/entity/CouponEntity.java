@@ -4,8 +4,8 @@
 //import javax.validation.constraints.Size;
 //
 //@Entity
-//@Table(name = "category", schema = "public")
-//public class CategoryEntity {
+//@Table(name = "coupon", schema = "public")
+//public class CouponEntity {
 //
 //  @Id
 //  @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,9 +16,12 @@
 //  @Size(max = 200)
 //  private String uuid;
 //
-//  @Column(name = "category_name")
-//  @Size(max = 225)
-//  private String categoryName;
+//  @Column(name = "coupon_name")
+//  @Size(max = 255)
+//  private String couponName;
+//
+//  @Column(name = "percent")
+//  private Integer percent;
 //
 //  public Integer getId() {
 //    return id;
@@ -36,11 +39,19 @@
 //    this.uuid = uuid;
 //  }
 //
-//  public String getCategoryName() {
-//    return categoryName;
+//  public String getCouponName() {
+//    return couponName;
 //  }
 //
-//  public void setCategoryName(String categoryName) {
-//    this.categoryName = categoryName;
+//  public void setCouponName(String couponName) {
+//    this.couponName = couponName;
+//  }
+//
+//  public Integer getPercent() {
+//    return percent;
+//  }
+//
+//  public void setPercent(Integer percent) {
+//    this.percent = percent;
 //  }
 //}

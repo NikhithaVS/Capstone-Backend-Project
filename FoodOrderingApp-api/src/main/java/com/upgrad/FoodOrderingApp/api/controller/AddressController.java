@@ -1,14 +1,17 @@
 package com.upgrad.FoodOrderingApp.api.controller;
 
 import com.upgrad.FoodOrderingApp.api.model.*;
+import com.upgrad.FoodOrderingApp.api.utils.DTOEntityConverter;
 import com.upgrad.FoodOrderingApp.service.businness.AddressService;
-import com.upgrad.FoodOrderingApp.service.common.Util;
+import com.upgrad.FoodOrderingApp.service.businness.AuthenticationService;
 import com.upgrad.FoodOrderingApp.service.entity.AddressEntity;
+import com.upgrad.FoodOrderingApp.service.entity.CustomerAuthEntity;
 import com.upgrad.FoodOrderingApp.service.entity.CustomerEntity;
 import com.upgrad.FoodOrderingApp.service.entity.StateEntity;
 import com.upgrad.FoodOrderingApp.service.exception.AddressNotFoundException;
 import com.upgrad.FoodOrderingApp.service.exception.AuthorizationFailedException;
 import com.upgrad.FoodOrderingApp.service.exception.SaveAddressException;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,135 +23,144 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
-
 @CrossOrigin
 @RestController
 @RequestMapping("/")
 public class AddressController {
 
-    @Autowired
-    AddressService addressService;
+  @Autowired AddressService addressService;
 
-    @CrossOrigin
-    @RequestMapping(
-            method = RequestMethod.POST,
-            path = "/address",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<SaveAddressResponse> saveAddress(
-            @RequestHeader("authorization") final String authorization,
-            @RequestBody(required = false) final SaveAddressRequest saveAddressRequest)
-            throws AuthorizationFailedException, AddressNotFoundException, SaveAddressException {
+  @Autowired AuthenticationService authenticationService;
 
+  @Autowired DTOEntityConverter dtoEntityConverter;
 
-        final String accessToken = Util.getBearerAuthToken(authorization);
+  @CrossOrigin
+  @RequestMapping(
+      method = RequestMethod.POST,
+      path = "/address",
+      consumes = MediaType.APPLICATION_JSON_VALUE,
+      produces = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<SaveAddressResponse> saveAddress(
+      @RequestHeader("authorization") final String authorization,
+      @RequestBody(required = false) final SaveAddressRequest saveAddressRequest)
+      throws AuthorizationFailedException, AddressNotFoundException, SaveAddressException {
 
-        // ToDo: check if the access token exists in the database
+    if (saveAddressRequest.getCity().isEmpty()
+        || saveAddressRequest.getFlatBuildingName().isEmpty()
+        || saveAddressRequest.getLocality().isEmpty()
+        || saveAddressRequest.getPincode().isEmpty())
+      throw new SaveAddressException("SAR-001", "No field can be empty");
 
-        StateEntity stateEntity = addressService.getStateByUUID(saveAddressRequest.getStateUuid());
+    // ToDo: check if the access token exists in the database
+    final CustomerAuthEntity customerAuthEntity =
+        authenticationService.validateToken(authorization);
 
-        AddressEntity savedAddress = addressService.createAddress(
-                saveAddressRequest.getFlatBuildingName(),
-                saveAddressRequest.getLocality(),
-                saveAddressRequest.getCity(),
-                saveAddressRequest.getPincode(), stateEntity);
+    final CustomerEntity customerEntity=customerAuthEntity.getCustomer();
 
-        SaveAddressResponse addressResponse =
-                new SaveAddressResponse()
-                        .id(savedAddress.getUuid())
-                        .status("Success");
+    final String pincode = saveAddressRequest.getPincode();
+    if (pincode.length() != 6 && !NumberUtils.isParsable(pincode))
+      throw new SaveAddressException("SAR-002", "Invalid pincode");
 
-        return new ResponseEntity<SaveAddressResponse>(addressResponse, HttpStatus.CREATED);
-    }
+    StateEntity stateEntity = addressService.getStateByUUID(saveAddressRequest.getStateUuid());
+    if (stateEntity == null) throw new AddressNotFoundException("ANF-002", "No state by this id");
 
-    @RequestMapping(
-            method = RequestMethod.GET,
-            path = "/address/customer",
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<AddressListResponse> getAllSavedAddresses(
-            @RequestHeader("authorization") final String authorization)
-            throws AuthorizationFailedException {
+    AddressEntity newAddress =
+        dtoEntityConverter.convertToAddressEntity(saveAddressRequest, stateEntity,customerEntity);
 
-        final String accessToken = Util.getBearerAuthToken(authorization);
+    addressService.saveAddress(newAddress);
 
-        // ToDo: check if the access token exists in the database
-        CustomerEntity customerEntity = new CustomerEntity();
+    SaveAddressResponse addressResponse =
+        new SaveAddressResponse().id(newAddress.getUuid()).status("Success");
+    return new ResponseEntity<SaveAddressResponse>(addressResponse, HttpStatus.CREATED);
+  }
 
-        List<AddressEntity> addressesInSortedOrder = addressService.getAllAddress(customerEntity);
+  @RequestMapping(
+      method = RequestMethod.GET,
+      path = "/address/customer",
+      produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  public ResponseEntity<AddressListResponse> getAllSavedAddresses(
+      @RequestHeader("authorization") final String authorization)
+      throws AuthorizationFailedException {
 
-        List<AddressList> allAddresses = new ArrayList<>();
+    final CustomerAuthEntity customerAuthEntity =
+        authenticationService.validateToken(authorization);
 
-        addressesInSortedOrder.forEach(
-                address -> {
-                    AddressListState addressListState = new AddressListState();
-                    addressListState.setId(UUID.fromString(address.getState().getUuid()));
-                    addressListState.setStateName(address.getState().getStateName());
+    // ToDo: check if the access token exists in the database
+    CustomerEntity customerEntity = customerAuthEntity.getCustomer();
 
-                    AddressList addressList =
-                            new AddressList()
-                                    .id(UUID.fromString(address.getUuid()))
-                                    .flatBuildingName(address.getFlatBuildNumber())
-                                    .city(address.getCity())
-                                    .locality(address.getLocality())
-                                    .pincode(address.getPincode())
-                                    .state(addressListState);
-                    allAddresses.add(addressList);
-                });
+    List<AddressEntity> addressesInSortedOrder = addressService.getAllAddress(customerEntity);
 
-        AddressListResponse addressListResponse = new AddressListResponse().addresses(allAddresses);
-        return new ResponseEntity<AddressListResponse>(addressListResponse, HttpStatus.OK);
+    List<AddressList> allAddresses = new ArrayList<>();
 
-    }
+    addressesInSortedOrder.forEach(
+        address -> {
+          AddressListState addressListState = new AddressListState();
+          addressListState.setId(UUID.fromString(address.getState().getUuid()));
+          addressListState.setStateName(address.getState().getStateName());
 
-    @RequestMapping(
-            method = RequestMethod.DELETE,
-            path = "/address/{address_id}",
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<DeleteAddressResponse> deleteSavedAddress(
-            @PathVariable("address_id") final String addressID,
-            @RequestHeader("authorization") final String authorization)
-            throws AuthorizationFailedException, AddressNotFoundException {
+          AddressList addressList =
+              new AddressList()
+                  .id(UUID.fromString(address.getUuid()))
+                  .flatBuildingName(address.getFlatBuildNumber())
+                  .city(address.getCity())
+                  .locality(address.getLocality())
+                  .pincode(address.getPincode())
+                  .state(addressListState);
+          allAddresses.add(addressList);
+        });
 
-        final String accessToken = Util.getBearerAuthToken(authorization);
+    AddressListResponse addressListResponse = new AddressListResponse().addresses(allAddresses);
+    return new ResponseEntity<AddressListResponse>(addressListResponse, HttpStatus.OK);
+  }
 
-        // ToDo: Verify access token exists in the database
-        final CustomerEntity customerEntity = new CustomerEntity();
+  @RequestMapping(
+          method = RequestMethod.DELETE,
+          path = "/address/{address_id}",
+          produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  public ResponseEntity<DeleteAddressResponse> deleteSavedAddress(
+          @PathVariable("address_id") final String addressID,
+          @RequestHeader("authorization") final String authorization)
+          throws AuthorizationFailedException, AddressNotFoundException {
 
-        // Get address entity of address to be deleted
-        AddressEntity address = addressService.getAddressByUUID(addressID, customerEntity);
+    final CustomerAuthEntity customerAuthEntity =
+            authenticationService.validateToken(authorization);
 
-        AddressEntity deletedAddress;
+    // ToDo: Verify access token exists in the database
+    final CustomerEntity customerEntity = customerAuthEntity.getCustomer();
 
-        DeleteAddressResponse deleteAddressResponse = new DeleteAddressResponse();
+    // Get address entity of address to be deleted
+    AddressEntity address = addressService.getAddressByUUID(addressID, customerEntity);
 
-        deletedAddress = addressService.deleteAddress(address);
+    AddressEntity deletedAddress=addressService.deleteAddress(address);
 
-        deleteAddressResponse.status("deleted");
-        deleteAddressResponse.id(UUID.fromString(deletedAddress.getUuid()));
-        return new ResponseEntity<DeleteAddressResponse>(deleteAddressResponse, HttpStatus.OK);
-    }
+    DeleteAddressResponse deleteAddressResponse = new DeleteAddressResponse();
 
-    @RequestMapping(
-            method = RequestMethod.GET,
-            path = "/states",
-            produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<StatesListResponse> getAllStates() {
+    deleteAddressResponse.status("deleted");
+    deleteAddressResponse.id(UUID.fromString(deletedAddress.getUuid()));
+    return new ResponseEntity<DeleteAddressResponse>(deleteAddressResponse, HttpStatus.OK);
+  }
 
-        List<StateEntity> states = addressService.getAllStates();
+  @RequestMapping(
+          method = RequestMethod.GET,
+          path = "/states",
+          produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  public ResponseEntity<StatesListResponse> getAllStates() {
 
-        if (!states.isEmpty()) {
-            List<StatesList> allStates = new LinkedList<>();
-            states.forEach(
-                    state -> {
-                        StatesList stateList = new StatesList();
-                        stateList.setId(UUID.fromString(state.getUuid()));
-                        stateList.setStateName(state.getStateName());
+    List<StateEntity> states = addressService.getAllStates();
 
-                        allStates.add(stateList);
-                    });
-            StatesListResponse statesListResponse = new StatesListResponse().states(allStates);
-            return new ResponseEntity<StatesListResponse>(statesListResponse, HttpStatus.OK);
-        } else
-            return new ResponseEntity<StatesListResponse>(new StatesListResponse(), HttpStatus.OK);
-    }
+    if (!states.isEmpty()) {
+      List<StatesList> allStates = new LinkedList<>();
+      states.forEach(
+              state -> {
+                StatesList stateList = new StatesList();
+                stateList.setId(UUID.fromString(state.getUuid()));
+                stateList.setStateName(state.getStateName());
+
+                allStates.add(stateList);
+              });
+      StatesListResponse statesListResponse = new StatesListResponse().states(allStates);
+      return new ResponseEntity<StatesListResponse>(statesListResponse, HttpStatus.OK);
+    } else
+      return new ResponseEntity<StatesListResponse>(new StatesListResponse(), HttpStatus.OK);
+  }
 }

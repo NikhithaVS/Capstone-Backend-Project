@@ -4,6 +4,7 @@ package com.upgrad.FoodOrderingApp.api;
 import com.upgrad.FoodOrderingApp.service.ServiceConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 
 /**
@@ -11,6 +12,8 @@ import org.springframework.context.annotation.Import;
  * This class launches a Spring Application from Java main method.
  */
 @SpringBootApplication
+@ComponentScan("com.upgrad.FoodOrderingApp.api")
+@ComponentScan("com.upgrad.FoodOrderingApp.service")
 @Import(ServiceConfiguration.class)
 public class FoodOrderingAppApiApplication {
     public static void main(String[] args) {

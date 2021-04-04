@@ -12,7 +12,6 @@ public enum GenericErrorCode implements ErrorCode {
      */
     GEN_001("GEN-001", "An unexpected error occurred. Please contact System Administrator");
 
-
     private static final Map<String, GenericErrorCode> LOOKUP = new HashMap<String, GenericErrorCode>();
 
     static {
