@@ -10,8 +10,11 @@ import org.springframework.web.context.request.WebRequest;
 
 @ControllerAdvice
 public class SignUpRestrictedExceptionAspect {
-    @ExceptionHandler(SignUpRestrictedException.class)
-    public ResponseEntity<ErrorResponse> signUpRestrictedException(SignUpRestrictedException ex, WebRequest request){
-        return new ResponseEntity<ErrorResponse>(new ErrorResponse().code(ex.getCode()).message(ex.getErrorMessage()), HttpStatus.CONFLICT);
-    }
+  @ExceptionHandler(SignUpRestrictedException.class)
+  public ResponseEntity<ErrorResponse> signUpRestrictedException(
+      SignUpRestrictedException exe, WebRequest request) {
+    return new ResponseEntity<ErrorResponse>(
+        new ErrorResponse().code(exe.getCode()).message(exe.getErrorMessage()),
+        HttpStatus.BAD_REQUEST);
+  }
 }

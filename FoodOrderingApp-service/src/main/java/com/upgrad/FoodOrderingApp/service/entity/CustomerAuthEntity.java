@@ -1,33 +1,31 @@
 package com.upgrad.FoodOrderingApp.service.entity;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.time.ZonedDateTime;
 
-
 @Entity
-@Table(name = "customer_auth", schema = "public")
-@NamedQueries(
-        @NamedQuery(name = "getCustomerAuthToken", query = "select ct from CustomerAuthEntity ct where ct.accessToken =:accessToken")
-
-)
-public class CustomerAuthEntity {
-
+@Table(name = "customer_auth")
+@NamedQueries({
+        @NamedQuery(name = "customerAuthTokenByAccessToken", query = "select at from CustomerAuthEntity at where at.accessToken=:access_Token")
+})
+public class CustomerAuthEntity implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "uuid")
     @Size(max = 200)
     private String uuid;
 
-    //Doubt
-    @ManyToOne
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @OneToOne
     @JoinColumn(name = "customer_id")
     private CustomerEntity customer;
 
@@ -44,11 +42,11 @@ public class CustomerAuthEntity {
     @Column(name = "expires_at")
     private ZonedDateTime expiresAt;
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -98,5 +96,20 @@ public class CustomerAuthEntity {
 
     public void setExpiresAt(ZonedDateTime expiresAt) {
         this.expiresAt = expiresAt;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return new EqualsBuilder().append(this, obj).isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder().append(this).hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }
 }

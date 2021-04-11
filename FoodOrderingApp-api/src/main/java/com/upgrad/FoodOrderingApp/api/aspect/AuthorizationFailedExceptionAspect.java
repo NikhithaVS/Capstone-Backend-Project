@@ -10,8 +10,11 @@ import org.springframework.web.context.request.WebRequest;
 
 @ControllerAdvice
 public class AuthorizationFailedExceptionAspect {
-    @ExceptionHandler(AuthorizationFailedException.class)
-    public ResponseEntity<ErrorResponse> authorizationFailedExceptionHandler(AuthorizationFailedException ex, WebRequest request){
-        return new ResponseEntity<ErrorResponse>(new ErrorResponse().code(ex.getCode()).message(ex.getErrorMessage()), HttpStatus.FORBIDDEN);
-    }
+  @ExceptionHandler(AuthorizationFailedException.class)
+  public ResponseEntity<ErrorResponse> AuthorizationFailedException(
+      AuthorizationFailedException exc, WebRequest request) {
+    return new ResponseEntity<ErrorResponse>(
+        new ErrorResponse().code(exc.getCode()).message(exc.getErrorMessage()),
+        HttpStatus.FORBIDDEN);
+  }
 }
