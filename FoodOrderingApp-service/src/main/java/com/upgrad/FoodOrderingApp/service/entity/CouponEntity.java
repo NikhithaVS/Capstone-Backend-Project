@@ -6,47 +6,38 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "state")
-@NamedQueries(
-        {
-                @NamedQuery(name = "getAllStates", query = "SELECT s FROM StateEntity s ORDER BY s.stateName asc"),
-                @NamedQuery(name = "getStateByUuid", query = "SELECT s FROM StateEntity s WHERE s.uuid = :stateUuid")
-        }
-)
-public class StateEntity implements Serializable {
+@Table(name = "coupon")
+@NamedQueries({
+        @NamedQuery(name = "getCouponByName", query = "select c from CouponEntity c where c.coupon_name=:coupon_name"),
+        @NamedQuery(name = "getCouponById", query = "select c from CouponEntity c where c.uuid=:uuid"),
+})
+public class CouponEntity implements Serializable {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "uuid")
+    @Column(name = "uuid", nullable = false)
     @Size(max = 200)
-    @NotNull
     private String uuid;
 
-    @Column(name = "state_name")
-    @Size(max = 30)
-    @NotNull
-    private String stateName;
+    @Column(name = "coupon_name")
+    @Size(max = 255)
+    private String coupon_name;
 
-    public StateEntity() { }
+    @Column(name = "percent", nullable = false)
+    private Integer percent;
 
-    public StateEntity(String stateUuid, String state) {
-        uuid = stateUuid;
-        stateName = state;
-    }
+    public CouponEntity() { }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
+    public CouponEntity(String couponUuid, String couponName, Integer percent) {
+        this.uuid = couponUuid;
+        this.coupon_name = couponName;
+        this.percent = percent;
     }
 
     public String getUuid() {
@@ -57,12 +48,20 @@ public class StateEntity implements Serializable {
         this.uuid = uuid;
     }
 
-    public String getStateName() {
-        return stateName;
+    public String getCouponName() {
+        return coupon_name;
     }
 
-    public void setStateName(String stateName) {
-        this.stateName = stateName;
+    public void setCouponName(String couponName) {
+        this.coupon_name = couponName;
+    }
+
+    public Integer getPercent() {
+        return percent;
+    }
+
+    public void setPercent(Integer percent) {
+        this.percent = percent;
     }
 
     @Override

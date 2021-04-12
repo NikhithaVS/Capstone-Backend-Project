@@ -16,35 +16,45 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.UUID;
 
-@CrossOrigin
 @RestController
-@RequestMapping("/")
+@RequestMapping
 public class PaymentController {
 
   @Autowired
-  PaymentService paymentService;
+  private PaymentService paymentService;
 
+  /**
+   * Get all payments
+   * @return ResponseEntity of type PaymentListResponse
+   */
+  @CrossOrigin
   @RequestMapping(
-      method = RequestMethod.GET,
-      path = "/payment",
-      produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-  public ResponseEntity<PaymentListResponse> getPaymentMethods() {
+          method = RequestMethod.GET,
+          path = "/payment",
+          produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+  public ResponseEntity<PaymentListResponse> getAllPaymentMethods() {
+    final List<PaymentEntity> paymentDetails =
+            paymentService.getAllPaymentMethods();
+    final PaymentListResponse paymentResponseBody = getAllPaymentMethodsResponseBody(paymentDetails);
+    return new ResponseEntity<>(paymentResponseBody, HttpStatus.OK);
+  }
 
-    List<PaymentEntity> allPaymentMethods = paymentService.getAllPaymentMethods();
+  /**
+   * Populate PaymentListResponse object
+   * @param paymentEntities
+   * @return PaymentListResponse
+   */
+  private PaymentListResponse getAllPaymentMethodsResponseBody(final List<PaymentEntity> paymentEntities) {
+    final PaymentListResponse paymentListResponse = new PaymentListResponse();
 
-    PaymentListResponse resp = new PaymentListResponse();
-    allPaymentMethods.forEach(
-            paymentEntity ->
-                    resp.addPaymentMethodsItem(
-                            new PaymentResponse()
-                                    .id(UUID.fromString(paymentEntity.getUuid()))
-                                    .paymentName(paymentEntity.getPaymentName())));
-
-    if (resp.getPaymentMethods().isEmpty()) {
-      return new ResponseEntity<PaymentListResponse>(resp, HttpStatus.NO_CONTENT);
-    } else {
-      return new ResponseEntity<PaymentListResponse>(resp, HttpStatus.OK);
+    for (PaymentEntity paymentEntity : paymentEntities) {
+      final PaymentResponse paymentType = new PaymentResponse();
+      paymentType.setId(UUID.fromString(paymentEntity.getUuid()));
+      paymentType.setPaymentName(paymentEntity.getPaymentName());
+      paymentListResponse.addPaymentMethodsItem(paymentType);
     }
 
+    return paymentListResponse;
   }
+
 }
