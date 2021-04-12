@@ -1,70 +1,77 @@
 package com.upgrad.FoodOrderingApp.service.entity;
 
-import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import com.upgrad.FoodOrderingApp.service.common.ItemType;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 @Table(name = "item")
-@NamedQueries({
-        @NamedQuery(
-                name = "ItemEntity.getItemById",
-                query = "SELECT i FROM ItemEntity i WHERE i.uuid=:uuid")
-})
+@NamedQueries(
+        {
+                @NamedQuery(name = "getItems", query = "SELECT i FROM ItemEntity i WHERE i.uuid = :itemUuid order by i.itemName asc "),
+                @NamedQuery(name = "getItemByUuid", query = "SELECT i FROM ItemEntity i WHERE i.uuid = :itemUuid"),
+        }
+)
 public class ItemEntity implements Serializable {
-    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
-    @NotNull
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    Set<OrderItemEntity> orders = new HashSet<OrderItemEntity>();
-
     @Id
     @Column(name = "id")
-    @GeneratedValue(generator = "itemIdGenerator")
-    @SequenceGenerator(
-            name = "itemIdGenerator",
-            sequenceName = "item_id_seq",
-            initialValue = 1,
-            allocationSize = 1)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
     @Column(name = "uuid")
-    @NotNull
     @Size(max = 200)
+    @NotNull
     private String uuid;
 
     @Column(name = "item_name")
-    @NotNull
     @Size(max = 30)
+    @NotNull
     private String itemName;
 
     @Column(name = "price")
     @NotNull
-    private Integer price;
+    private int price;
 
     @Column(name = "type")
     @Size(max = 10)
     @NotNull
     private ItemType type;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "category_item",
-            joinColumns = {@JoinColumn(name = "item_id")},
-            inverseJoinColumns = {@JoinColumn(name = "category_id")})
-    private Set<CategoryEntity> categories = new HashSet<CategoryEntity>();
+    @ManyToMany
+    @JoinTable(name = "category_item",
+            joinColumns = @JoinColumn(name = "item_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private List<CategoryEntity> categories = new LinkedList<CategoryEntity>();
 
-    public Integer getId() {
+    @OneToMany(mappedBy = "order")
+    private List<OrderItemEntity> orders = new LinkedList<OrderItemEntity>();
+
+    public List<CategoryEntity> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<CategoryEntity> categories) {
+        this.categories = categories;
+    }
+
+    public List<OrderItemEntity> getOrders() {
+        return orders;
+    }
+
+    public void setOrders(List<OrderItemEntity> orders) {
+        this.orders = orders;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -84,11 +91,11 @@ public class ItemEntity implements Serializable {
         this.itemName = itemName;
     }
 
-    public Integer getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 
@@ -98,26 +105,5 @@ public class ItemEntity implements Serializable {
 
     public void setType(ItemType type) {
         this.type = type;
-    }
-
-    public Set<CategoryEntity> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(Set<CategoryEntity> categories) {
-        this.categories = categories;
-    }
-
-    public Set<OrderItemEntity> getOrders() {
-        return orders;
-    }
-
-    public void setOrders(Set<OrderItemEntity> orders) {
-        this.orders = orders;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return EqualsBuilder.reflectionEquals(this, obj, Boolean.FALSE);
     }
 }
