@@ -1,175 +1,98 @@
-//package com.upgrad.FoodOrderingApp.service.entity;
-//
-//import javax.persistence.*;
-//import javax.validation.constraints.Size;
-//
-//@Entity
-//@Table(name = "address", schema = "public")
-//public class AddressEntity {
-//
-//  @Id
-//  @GeneratedValue(strategy = GenerationType.IDENTITY)
-//  @Column(name = "id")
-//  private Integer id;
-//
-//  @Column(name = "uuid")
-//  @Size(max = 200)
-//  private String uuid;
-//
-//  @Column(name = "flat_build_number")
-//  @Size(max = 255)
-//  private String flatBuildNumber;
-//
-//  @Column(name = "locality")
-//  @Size(max = 255)
-//  private String locality;
-//
-//  @Column(name = "city")
-//  @Size(max = 30)
-//  private String city;
-//
-//  @Column(name = "pincode")
-//  @Size(max = 30)
-//  private String pincode;
-//
-//  @OneToOne(fetch = FetchType.EAGER)
-//  @JoinColumn(name = "state_id")
-//  private StateEntity state;
-//
-//  @Column(name = "active")
-//  private Integer active;
-//
-//  public Integer getId() {
-//    return id;
-//  }
-//
-//  public void setId(Integer id) {
-//    this.id = id;
-//  }
-//
-//  public String getUuid() {
-//    return uuid;
-//  }
-//
-//  public void setUuid(String uuid) {
-//    this.uuid = uuid;
-//  }
-//
-//  public String getFlatBuildNumber() {
-//    return flatBuildNumber;
-//  }
-//
-//  public void setFlatBuildNumber(String flatBuildNumber) {
-//    this.flatBuildNumber = flatBuildNumber;
-//  }
-//
-//  public String getLocality() {
-//    return locality;
-//  }
-//
-//  public void setLocality(String locality) {
-//    this.locality = locality;
-//  }
-//
-//  public String getCity() {
-//    return city;
-//  }
-//
-//  public void setCity(String city) {
-//    this.city = city;
-//  }
-//
-//  public String getPincode() {
-//    return pincode;
-//  }
-//
-//  public void setPincode(String pincode) {
-//    this.pincode = pincode;
-//  }
-//
-//  public StateEntity getState() {
-//    return state;
-//  }
-//
-//  public void setState(StateEntity state) {
-//    this.state = state;
-//  }
-//
-//  public Integer getActive() {
-//    return active;
-//  }
-//
-//  public void setActive(Integer active) {
-//    this.active = active;
-//  }
-//}
-
 package com.upgrad.FoodOrderingApp.service.entity;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.List;
+import java.io.Serializable;
 
 @Entity
-@Table(name = "address", schema = "public")
+@Table(name = "address")
 @NamedQueries(
-        @NamedQuery(
-                name = "getByAddressID",
-                query = "SELECT a FROM AddressEntity a WHERE a.uuid=:addressID and a.active = 1"))
-public class AddressEntity {
+        {
+                @NamedQuery(name = "getAddressesByCustomerUuid", query = "SELECT distinct a FROM AddressEntity a " +
+                        "join a.customer c where c.uuid=:customerUuid"),
 
+                @NamedQuery(name = "getAddressByUuid", query = "select  a FROM AddressEntity a where a.uuid=:uuid")
+        }
+)
+public class AddressEntity implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "uuid")
+    @NotNull
     @Size(max = 200)
     private String uuid;
 
-    @Column(name = "flat_buil_number")
+    @Column(name = "flat_build_number")
     @Size(max = 255)
-    private String flatBuildNumber;
+    @NotNull
+    private String flatBuildNo;
 
     @Column(name = "locality")
     @Size(max = 255)
+    @NotNull
     private String locality;
 
     @Column(name = "city")
     @Size(max = 30)
+    @NotNull
     private String city;
 
     @Column(name = "pincode")
     @Size(max = 30)
+    @NotNull
     private String pincode;
-
-//  @OneToMany(mappedBy = "address", fetch = FetchType.LAZY)
-//  private List<OrderEntity> orders = new ArrayList<>();
-
-
-
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "state_id")
-    private StateEntity state;
 
     @Column(name = "active")
     private Integer active;
 
-//    @ManyToMany(mappedBy = "addresses")
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "state_id", nullable = false)
+    private StateEntity state;
+
+    @ManyToOne
     @JoinTable(
             name = "customer_address",
-            schema="public",
-            joinColumns = { @JoinColumn(name = "address_id") },
-            inverseJoinColumns = { @JoinColumn(name = "customer_id") }
+            joinColumns = @JoinColumn(name = "address_id"),
+            inverseJoinColumns = @JoinColumn(name = "customer_id")
     )
-    private List<CustomerEntity> customers;
+    private CustomerEntity customer;
 
-    public Integer getId() {
+    public AddressEntity() {
+
+    }
+
+    public AddressEntity(String addressId, String s, String someLocality,
+                         String someCity, String s1, StateEntity stateEntity) {
+        this.uuid = addressId;
+        this.flatBuildNo = s;
+        locality = someLocality;
+        city = someCity;
+        pincode = s1;
+        this.state = stateEntity;
+    }
+
+    public CustomerEntity getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(CustomerEntity customer) {
+        this.customer = customer;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -177,24 +100,8 @@ public class AddressEntity {
         return uuid;
     }
 
-    public List<CustomerEntity> getCustomers() {
-        return customers;
-    }
-
-    public void setCustomers(List<CustomerEntity> customers) {
-        this.customers = customers;
-    }
-
     public void setUuid(String uuid) {
         this.uuid = uuid;
-    }
-
-    public String getFlatBuildNumber() {
-        return flatBuildNumber;
-    }
-
-    public void setFlatBuildNumber(String flatBuildNumber) {
-        this.flatBuildNumber = flatBuildNumber;
     }
 
     public String getLocality() {
@@ -221,6 +128,14 @@ public class AddressEntity {
         this.pincode = pincode;
     }
 
+    public Integer getActive() {
+        return active;
+    }
+
+    public void setActive(Integer active) {
+        this.active = active;
+    }
+
     public StateEntity getState() {
         return state;
     }
@@ -229,11 +144,26 @@ public class AddressEntity {
         this.state = state;
     }
 
-    public Integer getActive() {
-        return active;
+    public String getFlatBuilNo() {
+        return flatBuildNo;
     }
 
-    public void setActive(Integer active) {
-        this.active = active;
+    public void setFlatBuilNo(String flatBuilNo) {
+        this.flatBuildNo = flatBuilNo;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return new EqualsBuilder().append(this, obj).isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder().append(this).hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }
 }

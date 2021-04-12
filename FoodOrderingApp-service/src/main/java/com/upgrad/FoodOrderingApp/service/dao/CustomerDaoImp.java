@@ -9,27 +9,67 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 @Repository
-public class CustomerDaoImp implements CustomerDao{
+public class CustomerDaoImp implements CustomerDao {
+  @PersistenceContext private EntityManager entityManager;
 
-  @PersistenceContext EntityManager entityManager;
-
-  public CustomerEntity saveCustomer(CustomerEntity customer){
-    entityManager.persist(customer);
-    return customer;
+  /**
+   * @param customerEntity
+   * @return
+   */
+  public CustomerEntity createCustomer(CustomerEntity customerEntity) {
+    entityManager.persist(customerEntity);
+    return customerEntity;
   }
 
-  public CustomerEntity getCustomerByContactNumber(String contactNumber) {
+  /**
+   * @param contactNumber
+   * @return
+   */
+  public CustomerEntity getCustomerByContactNumber(final String contactNumber) {
     try {
       return entityManager
-          .createNamedQuery("getCustomerByContactNumber", CustomerEntity.class)
-          .setParameter("contactNumber", contactNumber)
+          .createNamedQuery("customerByContactNumber", CustomerEntity.class)
+          .setParameter("contact_number", contactNumber)
           .getSingleResult();
-    } catch (NoResultException nr) {
+    } catch (NoResultException nre) {
       return null;
     }
   }
 
-  public CustomerEntity updateCustomer(CustomerEntity customer){
-    return entityManager.merge(customer);
+  /**
+   * @param userAuthTokenEntity
+   * @return
+   */
+  public CustomerAuthEntity createAuthToken(final CustomerAuthEntity userAuthTokenEntity) {
+    entityManager.persist(userAuthTokenEntity);
+    return userAuthTokenEntity;
+  }
+
+  /**
+   * @param customerToBeUpdated
+   * @return
+   */
+  public CustomerEntity updateCustomer(CustomerEntity customerToBeUpdated) {
+    entityManager.merge(customerToBeUpdated);
+    return customerToBeUpdated;
+  }
+
+  /**
+   * To get Customer By Uuid if no results return null
+   *
+   * @param uuid
+   * @return
+   */
+  public CustomerEntity getCustomerByUuid(final String uuid) {
+    try {
+      CustomerEntity customer =
+          entityManager
+              .createNamedQuery("customerByUuid", CustomerEntity.class)
+              .setParameter("uuid", uuid)
+              .getSingleResult();
+      return customer;
+    } catch (NoResultException nre) {
+      return null;
+    }
   }
 }

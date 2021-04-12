@@ -10,10 +10,11 @@ import org.springframework.web.context.request.WebRequest;
 
 @ControllerAdvice
 public class AuthenticationFailedExceptionAspect {
-    @ExceptionHandler(AuthenticationFailedException.class)
-    public ResponseEntity<ErrorResponse> authenticationFailedException(AuthenticationFailedException exe, WebRequest request) {
-        return new ResponseEntity<ErrorResponse>(
-                new ErrorResponse().code(exe.getCode()).message(exe.getErrorMessage()), HttpStatus.FORBIDDEN
-        );
-    }
+  @ExceptionHandler(AuthenticationFailedException.class)
+  public ResponseEntity<ErrorResponse> AuthenticationFailedException(
+      AuthenticationFailedException exc, WebRequest request) {
+    return new ResponseEntity<ErrorResponse>(
+        new ErrorResponse().code(exc.getCode()).message(exc.getErrorMessage()),
+        HttpStatus.UNAUTHORIZED);
+  }
 }

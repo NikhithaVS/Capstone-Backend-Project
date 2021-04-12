@@ -1,6 +1,5 @@
 package com.upgrad.FoodOrderingApp.service.dao;
 
-
 import com.upgrad.FoodOrderingApp.service.entity.StateEntity;
 import org.springframework.stereotype.Repository;
 
@@ -12,25 +11,29 @@ import java.util.List;
 @Repository
 public class StateDaoImp implements StateDao {
 
-    @PersistenceContext
-    EntityManager entityManager;
+  @PersistenceContext private EntityManager entityManager;
 
-    public StateEntity getStateByUuid(final String uuid) {
-        try {
-            return entityManager.createNamedQuery("getStateByUUID", StateEntity.class).setParameter("uuid", uuid).getSingleResult();
-        } catch (NoResultException nre) {
-            return null;
-        }
+  /**
+   * @param stateUuid
+   * @return StateEntity
+   */
+  public StateEntity getStateByUuid(final String stateUuid) {
+    try {
+      return entityManager
+          .createNamedQuery("getStateByUuid", StateEntity.class)
+          .setParameter("stateUuid", stateUuid)
+          .getSingleResult();
+    } catch (NoResultException nre) {
+      return null;
     }
+  }
 
-    public List<StateEntity> getAllStates() {
-        try {
-            List<StateEntity> states =
-                    entityManager.createNamedQuery("getAllStates", StateEntity.class).getResultList();
-            return states;
-        } catch (NoResultException nre) {
-            return null;
-        }
+  /** @return List<StateEntity> */
+  public List<StateEntity> getAllStates() {
+    try {
+      return entityManager.createNamedQuery("getAllStates", StateEntity.class).getResultList();
+    } catch (NoResultException nre) {
+      return null;
     }
-
+  }
 }
