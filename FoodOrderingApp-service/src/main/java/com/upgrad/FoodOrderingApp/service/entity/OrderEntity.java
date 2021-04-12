@@ -1,58 +1,42 @@
 package com.upgrad.FoodOrderingApp.service.entity;
 
-import org.apache.commons.lang3.builder.*;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "orders")
-@NamedQueries({
-        @NamedQuery(
-                name = "Orders.ByCustomer",
-                query =
-                        "SELECT O FROM OrderEntity O WHERE O.customer.uuid = :customerId ORDER BY O.date DESC"),
-        @NamedQuery(
-                name = "fetchOrdersByRestaurant",
-                query = "SELECT o FROM OrderEntity o where o.restaurant =: restaurant")
-})
-public class OrderEntity implements Serializable {
-    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    Set<OrderItemEntity> items = new HashSet<OrderItemEntity>();
+@NamedQueries(
+        {
+                @NamedQuery(name = "getAllOrdersOfCustomerByUuid", query = "select o from OrderEntity o where o.customer.uuid=:customerUuid"),
+                @NamedQuery(name = "getAllOrdersByRestaurantUUid", query = "select o from OrderEntity o where o.restaurant.uuid=:restaurantUuid"),
 
+        }
+)
+public class OrderEntity implements Serializable {
     @Id
     @Column(name = "id")
-    @GeneratedValue(generator = "orderIdGenerator")
-    @SequenceGenerator(
-            name = "orderIdGenerator",
-            sequenceName = "orders_id_seq",
-            initialValue = 1,
-            allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "uuid")
-    @NotNull
     @Size(max = 200)
+    @NotNull
     private String uuid;
 
     @Column(name = "bill")
     @NotNull
     private Double bill;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "coupon_id", referencedColumnName = "id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "coupon_id", nullable = true)
     private CouponEntity coupon;
 
     @Column(name = "discount")
@@ -60,53 +44,38 @@ public class OrderEntity implements Serializable {
 
     @Column(name = "date")
     @NotNull
-    private LocalDateTime date;
+    private Date date;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "payment_id", referencedColumnName = "id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "payment_id", nullable = true)
     private PaymentEntity payment;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "customer_id", referencedColumnName = "id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @NotNull
+    @JoinColumn(name = "customer_id", nullable = false)
     private CustomerEntity customer;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "address_id", referencedColumnName = "id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @NotNull
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "address_id", nullable = false)
     private AddressEntity address;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @NotNull
+    @JoinColumn(name = "restaurant_id", nullable = false)
     private RestaurantEntity restaurant;
 
-    public OrderEntity() {}
+    public OrderEntity() {
+    }
 
-    public OrderEntity(
-            String uuid,
-            double bill,
-            CouponEntity coupon,
-            double discount,
-            Date date,
-            PaymentEntity payment,
-            CustomerEntity customer,
-            AddressEntity address,
-            RestaurantEntity restaurant) {
-        this.uuid = uuid;
-        this.date =
-                Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDateTime();
+    public OrderEntity(String orderId, Double bill, CouponEntity couponEntity, Double discount,
+                       Date date, PaymentEntity paymentEntity, CustomerEntity customerEntity, AddressEntity addressEntity, RestaurantEntity restaurantEntity) {
+        this.uuid = orderId;
         this.bill = bill;
-        this.coupon = coupon;
+        this.coupon = couponEntity;
         this.discount = discount;
-        this.restaurant = restaurant;
-        this.customer = customer;
-        this.address = address;
-        this.payment = payment;
+        this.date = date;
+        this.payment = paymentEntity;
+        this.customer = customerEntity;
+        this.address = addressEntity;
+        this.restaurant = restaurantEntity;
     }
 
     public Integer getId() {
@@ -125,12 +94,12 @@ public class OrderEntity implements Serializable {
         this.uuid = uuid;
     }
 
-    public Double getBill() {
-        return bill;
+    public Date getDate() {
+        return date;
     }
 
-    public void setBill(Double bill) {
-        this.bill = bill;
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public CouponEntity getCoupon() {
@@ -139,22 +108,6 @@ public class OrderEntity implements Serializable {
 
     public void setCoupon(CouponEntity coupon) {
         this.coupon = coupon;
-    }
-
-    public Double getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(Double discount) {
-        this.discount = discount;
-    }
-
-    public LocalDateTime getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDateTime date) {
-        this.date = date;
     }
 
     public PaymentEntity getPayment() {
@@ -189,22 +142,30 @@ public class OrderEntity implements Serializable {
         this.restaurant = restaurant;
     }
 
-    public Set<OrderItemEntity> getItems() {
-        return items;
+    public Double getBill() {
+        return bill;
     }
 
-    public void setItems(Set<OrderItemEntity> items) {
-        this.items = items;
+    public void setBill(Double bill) {
+        this.bill = bill;
+    }
+
+    public Double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Double discount) {
+        this.discount = discount;
     }
 
     @Override
     public boolean equals(Object obj) {
-        return EqualsBuilder.reflectionEquals(this, obj, Boolean.FALSE);
+        return new EqualsBuilder().append(this, obj).isEquals();
     }
 
     @Override
     public int hashCode() {
-        return HashCodeBuilder.reflectionHashCode(this, Boolean.FALSE);
+        return new HashCodeBuilder().append(this).hashCode();
     }
 
     @Override
@@ -212,4 +173,3 @@ public class OrderEntity implements Serializable {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }
 }
-

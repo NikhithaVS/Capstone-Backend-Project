@@ -1,6 +1,11 @@
 package com.upgrad.FoodOrderingApp.service.entity;
 
-import org.apache.commons.lang3.builder.*;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -8,24 +13,27 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "order_item")
+@NamedQueries(
+        {
+                @NamedQuery(name = "getItemsByOrderUuid", query = "select oi from OrderItemEntity oi where oi.order.uuid = :orderUuid"),
+
+        }
+)
 public class OrderItemEntity implements Serializable {
+
     @Id
     @Column(name = "id")
-    @GeneratedValue(generator = "orderItemIdGenerator")
-    @SequenceGenerator(
-            name = "orderItemIdGenerator",
-            sequenceName = "order_item_id_seq",
-            initialValue = 1,
-            allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "order_id", referencedColumnName = "id")
+    @JoinColumn(name = "order_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @NotNull
     private OrderEntity order;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "item_id", referencedColumnName = "id")
+    @JoinColumn(name = "item_id")
     @NotNull
     private ItemEntity item;
 
@@ -79,12 +87,12 @@ public class OrderItemEntity implements Serializable {
 
     @Override
     public boolean equals(Object obj) {
-        return EqualsBuilder.reflectionEquals(this, obj, Boolean.FALSE);
+        return new EqualsBuilder().append(this, obj).isEquals();
     }
 
     @Override
     public int hashCode() {
-        return HashCodeBuilder.reflectionHashCode(this, Boolean.FALSE);
+        return new HashCodeBuilder().append(this).hashCode();
     }
 
     @Override
@@ -92,4 +100,3 @@ public class OrderItemEntity implements Serializable {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }
 }
-

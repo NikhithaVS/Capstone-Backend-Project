@@ -9,91 +9,96 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 
 @Entity
 @Table(name = "category")
-@NamedQueries({
-        @NamedQuery(
-                name = "Category.fetchAllCategories",
-                query = "SELECT c FROM CategoryEntity c order by c.categoryName"),
-        @NamedQuery(
-                name = "Category.fetchCategoryItem",
-                query = "SELECT ci FROM CategoryEntity ci WHERE ci.uuid=:categoryId")
-})
-public class CategoryEntity implements Serializable, Comparable<CategoryEntity> {
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(generator = "categoryIdGenerator")
-    @SequenceGenerator(
-            name = "categoryIdGenerator",
-            sequenceName = "category_id_seq",
-            initialValue = 1,
-            allocationSize = 1)
-    private Integer id;
+@NamedQueries(
+        {
+                @NamedQuery(name = "getCategoryByUuid", query = "SELECT c FROM CategoryEntity c WHERE c.uuid = :categoryUuid ORDER BY c.categoryName ASC"),
+                @NamedQuery(name = "getAllCategoriesOrderedByName", query = "SELECT c FROM CategoryEntity c ORDER BY c.categoryName ASC "),
+        }
+)
+public class CategoryEntity implements Serializable {
+  @Id
+  @Column(name = "id")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Integer id;
 
-    @Column(name = "uuid")
-    @NotNull
-    @Size(max = 200)
-    private String uuid;
+  @Column(name = "uuid")
+  @Size(max = 200)
+  @NotNull
+  private String uuid;
 
-    @Column(name = "category_name")
-    @Size(max = 30)
-    private String categoryName;
+  @Column(name = "category_name")
+  @Size(max = 255)
+  private String categoryName;
 
-    @ManyToMany(mappedBy = "categories", fetch = FetchType.EAGER)
-    private List<ItemEntity> items;
+  @ManyToMany
+  @JoinTable(name = "category_item", joinColumns = @JoinColumn(name = "category_id"),
+          inverseJoinColumns = @JoinColumn(name = "item_id"))
+  @OrderBy("lower(itemName) asc")
+  private List<ItemEntity> items = new LinkedList<>();
 
-    public Integer getId() {
-        return id;
-    }
+  @ManyToMany
+  @JoinTable(name = "restaurant_category", joinColumns = @JoinColumn(name = "category_id"),
+          inverseJoinColumns = @JoinColumn(name = "restaurant_id"))
+  @OrderBy("lower(restaurantName) asc")
+  private List<RestaurantEntity> restaurants = new LinkedList<>();
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+  public int getId() {
+    return id;
+  }
 
-    public String getUuid() {
-        return uuid;
-    }
+  public void setId(int id) {
+    this.id = id;
+  }
 
-    public void setUuid(String uuid) {
-        this.uuid = uuid;
-    }
+  public String getUuid() {
+    return uuid;
+  }
 
-    public String getCategoryName() {
-        return categoryName;
-    }
+  public void setUuid(String uuid) {
+    this.uuid = uuid;
+  }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
-    }
+  public String getCategoryName() {
+    return categoryName;
+  }
 
-    public List<ItemEntity> getItems() {
-        return items;
-    }
+  public void setCategoryName(String categoryName) {
+    this.categoryName = categoryName;
+  }
 
-    public void setItems(List<ItemEntity> items) {
-        this.items = items;
-    }
+  public List<ItemEntity> getItems() {
+    return items;
+  }
 
-    @Override
-    public boolean equals(Object obj) {
-        return EqualsBuilder.reflectionEquals(this, obj, Boolean.FALSE);
-    }
+  public void setItems(List<ItemEntity> items) {
+    this.items = items;
+  }
 
-    @Override
-    public int hashCode() {
-        return HashCodeBuilder.reflectionHashCode(this, Boolean.FALSE);
-    }
+  public List<RestaurantEntity> getRestaurants() {
+    return restaurants;
+  }
 
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
-    }
+  public void setRestaurants(List<RestaurantEntity> restaurants) {
+    this.restaurants = restaurants;
+  }
 
-    @Override
-    public int compareTo(CategoryEntity categoryEntity) {
-        return 0;
-    }
+  @Override
+  public boolean equals(Object obj) {
+    return new EqualsBuilder().append(this, obj).isEquals();
+  }
+
+  @Override
+  public int hashCode() {
+    return new HashCodeBuilder().append(this).hashCode();
+  }
+
+  @Override
+  public String toString() {
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+  }
 }
-

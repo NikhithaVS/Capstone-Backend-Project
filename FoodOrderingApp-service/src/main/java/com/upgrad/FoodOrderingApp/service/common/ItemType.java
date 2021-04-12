@@ -1,6 +1,7 @@
-package com.upgrad.FoodOrderingApp.service.entity;
+package com.upgrad.FoodOrderingApp.service.common;
 
 public enum ItemType {
+
     VEG("VEG"),
     NON_VEG("NON_VEG");
 
