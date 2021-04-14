@@ -16,7 +16,7 @@ public class DTOEntityConverter {
     customerEntity.setLastName(signupCustomerRequest.getLastName());
     customerEntity.setEmail(signupCustomerRequest.getEmailAddress());
     customerEntity.setPassword(signupCustomerRequest.getPassword());
-    customerEntity.setContactNumber(signupCustomerRequest.getContactNumber());
+    customerEntity.setContactnumber(signupCustomerRequest.getContactNumber());
     return customerEntity;
   }
 }

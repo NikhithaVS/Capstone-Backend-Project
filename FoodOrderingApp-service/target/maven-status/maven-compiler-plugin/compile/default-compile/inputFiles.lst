@@ -1,37 +1,67 @@
-D:\UpGrad\Capstone-Project\NewCheckOut\27-03-21\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\common\Util.java
-D:\UpGrad\Capstone-Project\NewCheckOut\27-03-21\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\dao\AddressDao.java
-D:\UpGrad\Capstone-Project\NewCheckOut\27-03-21\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\dao\StateDao.java
-D:\UpGrad\Capstone-Project\NewCheckOut\27-03-21\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\entity\CustomerEntity.java
-D:\UpGrad\Capstone-Project\NewCheckOut\27-03-21\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\exception\AddressNotFoundException.java
-D:\UpGrad\Capstone-Project\NewCheckOut\27-03-21\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\entity\CategoryEntity.java
-D:\UpGrad\Capstone-Project\NewCheckOut\27-03-21\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\entity\UserEntity.java
-D:\UpGrad\Capstone-Project\NewCheckOut\27-03-21\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\ServiceConfiguration.java
-D:\UpGrad\Capstone-Project\NewCheckOut\27-03-21\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\exception\RestaurantNotFoundException.java
-D:\UpGrad\Capstone-Project\NewCheckOut\27-03-21\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\exception\AuthenticationFailedException.java
-D:\UpGrad\Capstone-Project\NewCheckOut\27-03-21\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\businness\RestaurantService.java
-D:\UpGrad\Capstone-Project\NewCheckOut\27-03-21\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\exception\CustomerNotFoundException.java
-D:\UpGrad\Capstone-Project\NewCheckOut\27-03-21\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\exception\SignUpRestrictedException.java
-D:\UpGrad\Capstone-Project\NewCheckOut\27-03-21\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\common\Constants.java
-D:\UpGrad\Capstone-Project\NewCheckOut\27-03-21\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\exception\UpdateCustomerException.java
-D:\UpGrad\Capstone-Project\NewCheckOut\27-03-21\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\businness\JwtTokenProvider.java
-D:\UpGrad\Capstone-Project\NewCheckOut\27-03-21\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\exception\PaymentMethodNotFoundException.java
-D:\UpGrad\Capstone-Project\NewCheckOut\27-03-21\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\businness\PaymentService.java
-D:\UpGrad\Capstone-Project\NewCheckOut\27-03-21\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\common\GenericErrorCode.java
-D:\UpGrad\Capstone-Project\NewCheckOut\27-03-21\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\exception\AuthorizationFailedException.java
-D:\UpGrad\Capstone-Project\NewCheckOut\27-03-21\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\exception\SaveAddressException.java
-D:\UpGrad\Capstone-Project\NewCheckOut\27-03-21\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\entity\AddressEntity.java
-D:\UpGrad\Capstone-Project\NewCheckOut\27-03-21\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\exception\ItemNotFoundException.java
-D:\UpGrad\Capstone-Project\NewCheckOut\27-03-21\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\entity\ItemEntity.java
-D:\UpGrad\Capstone-Project\NewCheckOut\27-03-21\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\businness\PasswordCryptographyProvider.java
-D:\UpGrad\Capstone-Project\NewCheckOut\27-03-21\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\exception\CouponNotFoundException.java
-D:\UpGrad\Capstone-Project\NewCheckOut\27-03-21\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\common\UnexpectedException.java
-D:\UpGrad\Capstone-Project\NewCheckOut\27-03-21\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\common\ErrorCode.java
-D:\UpGrad\Capstone-Project\NewCheckOut\27-03-21\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\entity\StateEntity.java
-D:\UpGrad\Capstone-Project\NewCheckOut\27-03-21\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\entity\PaymentEntity.java
-D:\UpGrad\Capstone-Project\NewCheckOut\27-03-21\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\businness\CategoryService.java
-D:\UpGrad\Capstone-Project\NewCheckOut\27-03-21\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\businness\ItemService.java
-D:\UpGrad\Capstone-Project\NewCheckOut\27-03-21\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\entity\CustomerAuthEntity.java
-D:\UpGrad\Capstone-Project\NewCheckOut\27-03-21\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\exception\CategoryNotFoundException.java
-D:\UpGrad\Capstone-Project\NewCheckOut\27-03-21\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\businness\AddressService.java
-D:\UpGrad\Capstone-Project\NewCheckOut\27-03-21\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\entity\RestaurantEntity.java
-D:\UpGrad\Capstone-Project\NewCheckOut\27-03-21\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\exception\InvalidRatingException.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\dao\RestaurantDao.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\dao\StateDaoImp.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\businness\RestaurantServiceImp.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\businness\CustomerServiceImp.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\common\ItemType.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\businness\CategoryService.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\dao\OrderItemDaoImp.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\businness\OrderService.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\exception\AddressNotFoundException.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\dao\CouponDao.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\exception\SignUpRestrictedException.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\exception\UpdateCustomerException.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\dao\CustomerAuthDao.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\businness\ItemService.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\businness\AddressServiceImp.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\businness\JwtTokenProvider.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\dao\CategoryDaoImp.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\entity\AddressEntity.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\dao\PaymentDaoImp.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\entity\CustomerAuthEntity.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\exception\AuthorizationFailedException.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\entity\OrderEntity.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\dao\OrderDaoImp.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\entity\PaymentEntity.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\businness\AddressService.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\exception\RestaurantNotFoundException.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\dao\CustomerAuthDaoImp.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\dao\CustomerDaoImp.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\dao\AddressDaoImp.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\dao\RestaurantDaoImp.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\entity\StateEntity.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\dao\CouponDaoImp.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\businness\CustomerService.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\businness\ItemServiceImp.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\exception\InvalidRatingException.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\businness\CategoryServiceImp.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\entity\RestaurantEntity.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\dao\ItemDaoImp.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\entity\ItemEntity.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\common\UnexpectedException.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\dao\OrderItemDao.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\businness\PaymentServiceImp.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\businness\PaymentService.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\dao\AddressDao.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\exception\AuthenticationFailedException.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\entity\CouponEntity.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\exception\CustomerNotFoundException.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\exception\PaymentMethodNotFoundException.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\common\GenericErrorCode.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\dao\OrderDao.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\dao\StateDao.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\common\ErrorCode.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\dao\PaymentDao.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\exception\CategoryNotFoundException.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\entity\CustomerEntity.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\exception\ItemNotFoundException.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\businness\OrderServiceImp.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\businness\PasswordCryptographyProvider.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\exception\SaveAddressException.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\ServiceConfiguration.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\dao\CategoryDao.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\dao\CustomerDao.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\exception\CouponNotFoundException.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\entity\OrderItemEntity.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\dao\ItemDao.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\businness\RestaurantService.java
+C:\Users\Shubham Kumar\Desktop\CapstonProject1\Capstone-Backend-Project\FoodOrderingApp-service\src\main\java\com\upgrad\FoodOrderingApp\service\entity\CategoryEntity.java

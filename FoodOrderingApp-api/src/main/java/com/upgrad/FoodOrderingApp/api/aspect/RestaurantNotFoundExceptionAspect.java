@@ -12,10 +12,10 @@ import org.springframework.web.context.request.WebRequest;
 public class RestaurantNotFoundExceptionAspect {
 
   @ExceptionHandler(RestaurantNotFoundException.class)
-  public ResponseEntity<ErrorResponse> RestaurantNotFoundException(RestaurantNotFoundException exc, WebRequest request) {
-    return new ResponseEntity<ErrorResponse>(new ErrorResponse()
-            .code(exc.getCode())
-            .message(exc.getErrorMessage()),
-            HttpStatus.NOT_FOUND);
+  public ResponseEntity<ErrorResponse> RestaurantNotFoundException(
+      RestaurantNotFoundException exc, WebRequest request) {
+    return new ResponseEntity<ErrorResponse>(
+        new ErrorResponse().code(exc.getCode()).message(exc.getErrorMessage()),
+        HttpStatus.NOT_FOUND);
   }
 }

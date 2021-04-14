@@ -13,7 +13,7 @@ public class EntityDTOConverter {
     loginResponse.setFirstName(customer.getFirstName());
     loginResponse.setLastName(customer.getLastName());
     loginResponse.setEmailAddress(customer.getEmail());
-    loginResponse.setContactNumber(customer.getContactNumber());
+    loginResponse.setContactNumber(customer.getContactnumber());
     loginResponse.setMessage("LOGGED IN SUCCESSFULLY");
     return loginResponse;
   }

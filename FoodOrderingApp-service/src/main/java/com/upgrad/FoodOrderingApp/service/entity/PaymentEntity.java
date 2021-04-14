@@ -31,7 +31,7 @@ public class PaymentEntity implements Serializable {
 
     public PaymentEntity() {}
 
-    public PaymentEntity(String uuid, String paymentName) {
+    public  PaymentEntity(String uuid, String paymentName) {
         this.uuid = uuid;
         this.paymentName = paymentName;
     }
